@@ -1,0 +1,132 @@
+// Ref: https://dbdiagram.io/home
+// //// -- LEVEL 1
+// //// -- Tables 
+
+// // Creating tables
+Table pessoas {
+  erp_code varchar
+  erp_code_local varchar
+  erp_code_grupo_pessoas varchar
+}
+
+Table grupo_pessoas { erp_code varchar 
+}
+
+Table contratos {
+  erp_code varchar
+  erp_code_local varchar
+  erp_code_unidade_negocio varchar
+  erp_code_cliente varchar
+  erp_code_tipo_cobranca varchar
+}
+
+Table itens_contrato {
+  erp_code varchar
+  erp_code_contrato varchar
+  erp_code_servico varchar
+}
+
+Table contratos_eventos {
+  erp_code varchar
+  erp_code_contrato varchar
+}
+
+Table conexoes as cx {
+  erp_code varchar
+  erp_code_item_contrato varchar
+  erp_code_splitter varchar
+  erp_code_concentrador varchar
+  erp_code_ip varchar
+  erp_code_ponto_de_acesso varchar
+  erp_code_grupo_ip varchar
+}
+
+Table contas_pagar{
+  erp_code varchar
+  erp_code_local varchar
+  erp_code_fornecedor varchar
+  erp_code_caixas_contas varchar
+}
+
+Table contas_pagas {
+  erp_code varchar
+  erp_code_local varchar
+  erp_code_conta_pagar varchar
+  erp_code_caixas_contas varchar
+}
+
+Table contas_receber {
+  erp_code varchar
+  erp_code_cliente varchar
+  erp_code_local varchar
+  erp_code_unidade_negocio varchar
+  erp_code_contrato varchar
+  erp_code_tipo_cobranca varchar
+}
+
+Table contas_recebidas {
+  erp_code varchar
+  erp_code_conta_receber varchar
+  erp_code_caixas_contas varchar
+}
+
+Table local { erp_code varchar 
+}
+Table fornecedor { erp_code varchar 
+}
+Table caixa_contas { erp_code varchar 
+}
+Table unidade_negocio { erp_code varchar 
+}
+Table tipo_cobranca { erp_code varchar 
+}
+Table servico { erp_code varchar 
+}
+Table splitter { erp_code varchar
+}
+Table concentrador { erp_code varchar
+}
+Table ip { erp_code varchar
+}
+Table grupo_ip { erp_code varchar
+}
+Table ponto_de_acesso { erp_code varchar
+}
+
+// Creating references - You can also define relaionship separately
+// > many-to-one; < one-to-many; - one-to-one [REVISAR]
+Ref: pessoas.erp_code_local - local.erp_code
+Ref: pessoas.erp_code_grupo_pessoas - grupo_pessoas.erp_code
+
+Ref: contratos.erp_code_local - local.erp_code
+Ref: contratos.erp_code_unidade_negocio - unidade_negocio.erp_code
+Ref: contratos.erp_code_cliente > pessoas.erp_code
+Ref: contratos.erp_code_tipo_cobranca - tipo_cobranca.erp_code
+Ref: contratos_eventos.erp_code_contrato > contratos.erp_code
+
+Ref: itens_contrato.erp_code_contrato > contratos.erp_code
+Ref: itens_contrato.erp_code_servico - servico.erp_code
+
+Ref: conexoes.erp_code_item_contrato - itens_contrato.erp_code
+Ref: conexoes.erp_code_splitter - splitter.erp_code
+Ref: conexoes.erp_code_concentrador - concentrador.erp_code
+Ref: conexoes.erp_code_ip - ip.erp_code
+Ref: conexoes.erp_code_ponto_de_acesso - ponto_de_acesso.erp_code
+Ref: conexoes.erp_code_grupo_ip - grupo_ip.erp_code
+
+Ref: contas_pagar.erp_code_local - local.erp_code
+Ref: contas_pagar.erp_code_fornecedor - fornecedor.erp_code
+Ref: contas_pagar.erp_code_caixas_contas - caixa_contas.erp_code
+
+Ref: contas_pagas.erp_code_local - local.erp_code
+Ref: contas_pagas.erp_code_conta_pagar - contas_pagar.erp_code
+Ref: contas_pagas.erp_code_caixas_contas - caixa_contas.erp_code
+
+Ref: contas_receber.erp_code_cliente > pessoas.erp_code
+Ref: contas_receber.erp_code_local - local.erp_code
+Ref: contas_receber.erp_code_unidade_negocio - unidade_negocio.erp_code
+Ref: contas_receber.erp_code_contrato - contratos.erp_code
+Ref: contas_receber.erp_code_tipo_cobranca - tipo_cobranca.erp_code
+
+Ref: contas_recebidas.erp_code_conta_receber - contas_receber.erp_code
+Ref: contas_recebidas.erp_code_caixas_contas - caixa_contas.erp_code
